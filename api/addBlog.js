@@ -34,33 +34,43 @@ const upload = multer({
 
 /*** create blog using post ***/
 router.post('/',(req,res)=>{
+
     const blogTitle = req.body.blogTitle;
     const blogDesc = req.body.blogDesc;
     const blogImage = req.body.blogImage;
     const blogTimestamp = Date.now();
-    if(
-        blogTitle!='' && blogTitle!=undefined &&
-        blogDesc!='' && blogDesc!=undefined 
 
-    ){
-        db.getDb().collection(collection).insertOne(req.body,(err,result)=>{
-            if(err){
-                response.error.error_data=1;
-                response.error.error_msg=err;
-                helpers.resultData(response,res);
-            }else{
-               // res.json({result : result,document : result.ops[0]}); 
-               response.error.error_data=0;
-               response.error.error_msg='';
-               response.result=result.ops[0];
-               helpers.resultData(response,res);
-            }
-        });
+    if(helpers.isHeaderValid(req.headers["content-type"],'multipart/form-data') == true){
+        console.log(req.body)
+        if(
+            blogTitle!='' && blogTitle!=undefined &&
+            blogDesc!='' && blogDesc!=undefined 
+    
+        ){
+            /* db.getDb().collection(collection).insertOne(req.body,(err,result)=>{
+                if(err){
+                    response.error.error_data=1;
+                    response.error.error_msg=err;
+                    helpers.resultData(response,res);
+                }else{
+                   // res.json({result : result,document : result.ops[0]}); 
+                   response.error.error_data=0;
+                   response.error.error_msg='';
+                   response.result=result.ops[0];
+                   helpers.resultData(response,res);
+                }
+            }); */
+        }else{
+            response.error.error_data=1;
+            response.error.error_msg='All fields must be field with values';
+            helpers.resultData(response,res);
+        }
     }else{
         response.error.error_data=1;
-        response.error.error_msg='All fields must be field with values';
+        response.error.error_msg='Input Type mismatched';
         helpers.resultData(response,res);
     }
+    
     
 });
 

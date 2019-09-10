@@ -27,4 +27,4 @@ db.connect((err)=>{
 });
 
 app.use('/api/getBlogList',require('./api/getBlogList'));
-//app.use('/api/addBlog',require('./api/addBlog'));
+app.use('/api/addBlog',require('./api/addBlog'));
