@@ -14,8 +14,8 @@ const collection=require('../app');
 let response={error:{},result:{}};
 
 router.post('/',(req,res)=>{
-    const pageNo = req.body.page_no;
-    const noOfItemsPerPage = req.body.no_of_items_per_page;
+    const pageNo = req.body.pageNo;
+    const noOfItemsPerPage = req.body.noOfItemsPerPage;
 
     if(pageNo!='' && pageNo!=undefined && noOfItemsPerPage!='' && noOfItemsPerPage!=undefined){ 
         db.getDb().collection(collection).find({}).toArray((err,documents)=>{

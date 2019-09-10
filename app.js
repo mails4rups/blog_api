@@ -26,8 +26,5 @@ db.connect((err)=>{
     }
 });
 
-/* app.use('/api/getTodos',require('./api/getTodos'));
-app.use('/api/deleteTodo',require('./api/deleteTodo'));
-app.use('/api/addTodo',require('./api/addTodo'));
-app.use('/api/updateTodo',require('./api/updateTodo'));
-app.use('/api/sendMail',require('./api/sendMail')); */
+app.use('/api/getBlogList',require('./api/getBlogList'));
+//app.use('/api/addBlog',require('./api/addBlog'));
