@@ -16,24 +16,29 @@ let response={error:{},result:{}};
 router.post('/',(req,res)=>{
     const pageNo = req.body.pageNo;
     const noOfItemsPerPage = req.body.noOfItemsPerPage;
-
-    if(pageNo!='' && pageNo!=undefined && noOfItemsPerPage!='' && noOfItemsPerPage!=undefined){ 
-        db.getDb().collection(collection).find({}).toArray((err,documents)=>{
-            if(err){
-                response.error.error_data=1;
-                response.error.error_msg=err;
-                helpers.resultData(response,res);
-            }else{
-                response.error.error_data=0;
-                response.error.error_msg='';
-                response.result=documents;
-                helpers.resultData(response,res);
-            }
-        });
+    if(helpers.isHeaderValid(req.headers["content-type"],'application/json') == true){
+        if(pageNo!='' && pageNo!=undefined && noOfItemsPerPage!='' && noOfItemsPerPage!=undefined){ 
+            db.getDb().collection(collection).find({}).toArray((err,documents)=>{
+                if(err){
+                    response.error.error_data=1;
+                    response.error.error_msg=err;
+                    helpers.resultData(response,res);
+                }else{
+                    response.error.error_data=0;
+                    response.error.error_msg='';
+                    response.result=documents;
+                    helpers.resultData(response,res);
+                }
+            });
+        }else{
+            response.error.error_data=1;
+            response.error.error_msg='All fields must be field with values';
+            helpers.resultData(response,res);  
+        }
     }else{
         response.error.error_data=1;
-        response.error.error_msg='All fields must be field with values';
-        helpers.resultData(response,res);  
+        response.error.error_msg='Input Type mismatched';
+        helpers.resultData(response,res);
     }
     
 });
