@@ -38,19 +38,29 @@ router.post('/',(req,res)=>{
     upload(req,res,err => {
         const blogTitle = req.body.blogTitle;
         const blogDesc = req.body.blogDesc;
-        const blogImage = req.body.blogImage;
+        const blogImage = req.file.filename;
         const blogTimestamp = Date.now();
+        const blogStatus = 1
 
-        console.log(req.body)
-        console.log(req.file)
+        // console.log(req.body)
+        // console.log(req.file)
         
+        // console.log(blogTitle)
+        // console.log(blogDesc)
+        // console.log(blogImage)
+        // console.log(blogTimestamp)
+
         if(helpers.isHeaderValid(req.headers["content-type"],'multipart/form-data') == true){
             if(
                 blogTitle!='' && blogTitle!=undefined &&
-                blogDesc!='' && blogDesc!=undefined 
-        
+                blogDesc!='' && blogDesc!=undefined && 
+                blogDesc!='' && blogDesc!=undefined && 
+                blogImage!='' && blogImage!=undefined
             ){
-                /* db.getDb().collection(collection).insertOne(req.body,(err,result)=>{
+                /*** creating object for insertin database ***/
+                let obj = {blogTitle,blogDesc,blogImage,blogTimestamp,blogStatus};
+                
+                db.getDb().collection(collection).insertOne(obj,(err,result)=>{
                     if(err){
                         response.error.error_data=1;
                         response.error.error_msg=err;
@@ -62,7 +72,7 @@ router.post('/',(req,res)=>{
                     response.result=result.ops[0];
                     helpers.resultData(response,res);
                     }
-                }); */
+                });
             }else{
                 response.error.error_data=1;
                 response.error.error_msg='All fields must be field with values';
