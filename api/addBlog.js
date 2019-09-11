@@ -40,7 +40,8 @@ router.post('/',(req,res)=>{
         const blogDesc = req.body.blogDesc;
         const blogImage = req.file.filename;
         const blogTimestamp = Date.now();
-        const blogStatus = 1
+        const blogStatus = 1;
+        const blogAuthor = req.body.blogAuthor;
 
         // console.log(req.body)
         // console.log(req.file)
@@ -55,10 +56,13 @@ router.post('/',(req,res)=>{
                 blogTitle!='' && blogTitle!=undefined &&
                 blogDesc!='' && blogDesc!=undefined && 
                 blogDesc!='' && blogDesc!=undefined && 
-                blogImage!='' && blogImage!=undefined
+                blogImage!='' && blogImage!=undefined &&
+                blogAuthor!='' && blogAuthor!=undefined 
+
             ){
+               
                 /*** creating object for insertin database ***/
-                let obj = {blogTitle,blogDesc,blogImage,blogTimestamp,blogStatus};
+                let obj = {blogTitle,blogDesc,blogImage,blogAuthor,blogTimestamp,blogStatus};
                 
                 db.getDb().collection(collection).insertOne(obj,(err,result)=>{
                     if(err){
